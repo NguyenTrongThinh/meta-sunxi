@@ -1,7 +1,7 @@
 SECTION = "kernel"
 DESCRIPTION = "Mainline Linux kernel"
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 COMPATIBLE_MACHINE = "(sun4i|sun5i|sun7i|sun8i|sun50i)"
 
 inherit kernel
@@ -18,12 +18,15 @@ RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
 
 S = "${WORKDIR}/linux-${PV}"
-	
-SRC_URI[md5sum] = "0d701ac1e2a67d47ce7127432df2c32b"
-SRC_URI[sha256sum] = "5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769"
 
-SRC_URI = "https://www.kernel.org/pub/linux/kernel/v4.x/linux-${PV}.tar.xz \
-        file://0002-arm64-dts-orange-pi-zero-plus2-enable-AP6212a-WiFi-B.patch \
+SRC_URI[md5sum] = "563ddd6b9f8022c2f881b441bee55844"
+SRC_URI[sha256sum] = "c645402843f90a69426975f8923923dfc6edebb5d1bc0092560ffb7135d3cd96"
+
+SRC_URI = "https://www.kernel.org/pub/linux/kernel/v5.x/linux-${PV}.tar.xz \
         file://0003-ARM-dts-nanopi-neo-air-Add-WiFi-eMMC.patch \
         file://defconfig \
         "
+
+SRC_URI_append_orange-pi-zero += "\
+	file://0001-dts-orange-pi-zero-Add-wifi-support.patch \
+	"

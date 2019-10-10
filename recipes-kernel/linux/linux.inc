@@ -1,7 +1,6 @@
 DESCRIPTION = "Linux Kernel"
 SECTION = "kernel"
 LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 INC_PR = "r0"
 
@@ -16,7 +15,7 @@ CMDLINE_DEBUG ?= "loglevel=3"
 
 # Kernel bootlogo is distro-specific (default is OE logo).
 # Logo resolution (qvga, vga, ...) is machine-specific.
-LOGO_SIZE ?= '${@base_conditional("MACHINE_GUI_CLASS", "bigscreen", "vga", "qvga", d)}'
+LOGO_SIZE ?= '${@oe.utils.conditional("MACHINE_GUI_CLASS", "bigscreen", "vga", "qvga", d)}'
 # To use this, add file://${LOGO_SIZE}/logo_linux_clut224.ppm.bz2 or similar
 # to your kernel recipe, and then structure your logos for each resolution
 # accordingly.
@@ -35,6 +34,10 @@ kernel_conf_variable() {
         echo "CONFIG_$1=$2" >> ${B}/.config
     fi
 }
+
+do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
+do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
+do_kernel_configme[depends] += "bc-native:do_populate_sysroot bison-native:do_populate_sysroot"
 
 do_configure_prepend() {
     CONF_SED_SCRIPT=""
